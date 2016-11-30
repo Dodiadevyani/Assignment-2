@@ -1,11 +1,12 @@
-#from django.http import Http404
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect
-#from django.template import loader
-from django.urls import reverse
+from django.http import  HttpResponseRedirect, HttpResponse
+from django.http import Http404
+#from django.urls import reverse
+from django.template import loader
 from django.views import generic
 
 from .models import Choice, Question
+
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
@@ -24,9 +25,10 @@ class DetailView(generic.DetailView):
 class ResultsView(generic.DetailView):
     model = Question
     template_name = 'polls/results.html'
-    
 
 
+#def vote(request, question_id):
+ #   return HttpResponse("You're voting on question %s." % question_id)
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
@@ -44,3 +46,4 @@ def vote(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
